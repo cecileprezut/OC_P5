@@ -52,8 +52,6 @@ const phrases  = {
     
 }
 
-
-
 /**
  * @description allows to generate a defined number of quotes
  * @param {*} numberOfQuotesToGenerate wished number of quotes to generate
@@ -77,37 +75,42 @@ const quoteListElt = document.getElementById('quoteList');
 const quoteNumberElt = document.getElementById('quoteNumber');
 const warningText = document.getElementById('warning');
 
-convertToParsedNumber = (numberOfQuotes) => {
-    parsedNumberOfQuotesToGenerate = parseInt(quoteNumberElt.value);
+/**
+ * @description allows to retrieve the number of quotes typed in and converts it into an integer
+ * @param {*} valueInString wished number of quotes to generate
+ * @returns an integer of quotes wished by the user
+ */
+getNumberOfQuotes = (valueInString) => {
+    parsedNumberOfQuotesToGenerate = parseInt(valueInString);
     if (isNaN(parsedNumberOfQuotesToGenerate)){
-        warningText.innerText = "Veuillez choisir un nombre de citations à générer."
+        warningText.innerText = "Veuillez choisir un nombre de citations à générer.";
+        return 0;
     } else if (parsedNumberOfQuotesToGenerate <= 0 || parsedNumberOfQuotesToGenerate > 5){
-        warningText.innerText = "Veuillez choisir un nombre de citations à générer compris entre un et cinq."
-    } else {
-        warningText.innerText = "";
-    }
+        warningText.innerText = "Veuillez choisir un nombre de citations à générer compris entre un et cinq.";
+        return 0;
+    } 
+    warningText.innerText = "";
+    return parsedNumberOfQuotesToGenerate;
 }
 
-let selectedType = '';
-getSelectedType = (arrayOfRadioElts) => {
+/**
+ * @description allows to retrieve the selected type of quotes
+ * @returns the type selected by the user (by default, type 1 is selected)
+ */
+getSelectedType = () => {
     for (let i = 0; i < typeRadioElts.length; i++) {
         if (typeRadioElts[i].checked) {
-            selectedType = typeRadioElts[i].value;
+            return typeRadioElts[i].value;
         } 
     }
-    warningText.innerText = "toto";
-    
 }
 
 submitElt.addEventListener('click', function(){
-    //retrieves the number of quotes typed in and converts it into an integer
-    convertToParsedNumber(quoteNumberElt.value);
-     
-    //retrieves the selected type of quotes
-    getSelectedType(typeRadioElts)
+    const numberOfQuotes = getNumberOfQuotes(quoteNumberElt.value);
+    const selectedType = getSelectedType()
     
     //calls the generateQuotes function
-    const generatedQuotesArr = generateQuotes(parsedNumberOfQuotesToGenerate, phrases, selectedType);
+    const generatedQuotesArr = generateQuotes(numberOfQuotes, phrases, selectedType);
     quoteListElt.innerHTML = ('');
     for (let i = 0; i < generatedQuotesArr.length; i++) {
         const quoteLiElt = document.createElement('li');
