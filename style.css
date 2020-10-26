@@ -1,0 +1,29 @@
+body
+{
+    margin: 2em;
+}
+
+form
+{
+    width: 50%;
+    border: 1px black solid;
+    border-radius: 5px;
+    padding: 2%;
+    margin-bottom: 2em;
+}
+
+#type1+label
+{
+    color: #2E9AFE;    
+}
+
+#type2+label
+{
+    color: #D358F7;
+}
+
+#warning
+{
+    margin-top: 1em;
+    color: red;
+}
