@@ -1,15 +1,14 @@
+const getRandomInt = (max) =>{
+    return Math.floor(Math.random() * Math.floor(max))
+}
 class Quote {    
     constructor(data, type){
-
-        const getRandomInt = (max) =>{
-            return Math.floor(Math.random() * Math.floor(max))
-        }
         //{beginningPhrases: [], middlePhrases: []...}
         const subData = data[type];
 
         for (const key in subData) {
             if (subData.hasOwnProperty(key)) {
-                //tableau de strings (contenu de beginningPhrases, etc.)
+                //string array (content of beginningPhrases, and so on)
                 const value = subData[key];
                 let i = getRandomInt(value.length);
                 const chosenPhrase = value[i];

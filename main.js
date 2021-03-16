@@ -54,13 +54,13 @@ const phrases  = {
 
 /**
  * @description allows to generate a defined number of quotes
- * @param {*} numberOfQuotesToGenerate wished number of quotes to generate
- * @param {*} dataSet table of phrases
+ * @param {int} numberOfQuotesToGenerate wished number of quotes to generate
+ * @param {[]} dataSet table of phrases
  * @param {*} type type of phrases (type1 or type2)
  * @returns array of quotes
  */
-generateQuotes = (numberOfQuotesToGenerate, dataSet, type) => {
-    //calls the quote constructor de quotes as many as numberOfQuotesToGenerate times
+const generateQuotes = (numberOfQuotesToGenerate, dataSet, type) => {
+    //calls the quote constructor the numberOfQuotesToGenerate times
     const quotes = [];
 
     for (let i = 0; i < numberOfQuotesToGenerate; i++) {
@@ -80,7 +80,7 @@ const warningText = document.getElementById('warning');
  * @param {*} valueInString wished number of quotes to generate
  * @returns an integer of quotes wished by the user
  */
-getNumberOfQuotes = (valueInString) => {
+const getNumberOfQuotes = (valueInString) => {
     parsedNumberOfQuotesToGenerate = parseInt(valueInString);
     if (isNaN(parsedNumberOfQuotesToGenerate)){
         warningText.innerText = "Veuillez choisir un nombre de citations à générer.";
@@ -95,9 +95,9 @@ getNumberOfQuotes = (valueInString) => {
 
 /**
  * @description allows to retrieve the selected type of quotes
- * @returns the type selected by the user (by default, type 1 is selected)
+ * @returns the type selected by the user (by default, type1 is selected)
  */
-getSelectedType = () => {
+const getSelectedType = () => {
     for (let i = 0; i < typeRadioElts.length; i++) {
         if (typeRadioElts[i].checked) {
             return typeRadioElts[i].value;
@@ -105,16 +105,26 @@ getSelectedType = () => {
     }
 }
 
+/**
+ * @description allows to insert the quotes in the DOM, as li elements of the quoteList list and adds a class according to type (type1 or type2)
+ * @param {*} selectedType type of generated quotes
+ * @param {[]} arrayOfQuotes array of generated quotes 
+ */
+const insertQuotesInDom = (selectedType, arrayOfQuotes) => {
+    quoteListElt.innerHTML = ('');
+
+    for (let i = 0; i < arrayOfQuotes.length; i++) {
+        const quoteLiElt = document.createElement('li');
+        quoteLiElt.innerHTML = arrayOfQuotes[i].sentence;
+        selectedType == "type1" ? quoteLiElt.setAttribute('class', 'type1'): quoteLiElt.setAttribute('class', 'type2');
+        quoteListElt.appendChild(quoteLiElt);        
+    }
+}
+
 submitElt.addEventListener('click', function(){
     const numberOfQuotes = getNumberOfQuotes(quoteNumberElt.value);
     const selectedType = getSelectedType()
-    
-    //calls the generateQuotes function
+
     const generatedQuotesArr = generateQuotes(numberOfQuotes, phrases, selectedType);
-    quoteListElt.innerHTML = ('');
-    for (let i = 0; i < generatedQuotesArr.length; i++) {
-        const quoteLiElt = document.createElement('li');
-        quoteLiElt.innerHTML = generatedQuotesArr[i].sentence;
-        quoteListElt.appendChild(quoteLiElt);    
-    }  
+    insertQuotesInDom(selectedType, generatedQuotesArr);
 })

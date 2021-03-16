@@ -12,12 +12,12 @@ form
     margin-bottom: 2em;
 }
 
-#type1+label
+#type1+label, .type1
 {
     color: #2E9AFE;    
 }
 
-#type2+label
+#type2+label, .type2
 {
     color: #D358F7;
 }
